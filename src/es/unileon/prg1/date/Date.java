@@ -5,7 +5,7 @@ public class Date {
 	private int month;
 	private int year;
 	private String nombre;
-	// Constructor mal programado: Permite crear fechas no validas
+	
 	public Date(int day, int month, int year)throws DateException{
 		this.year=year;
 		if(month<1||month>12){
@@ -72,37 +72,117 @@ public class Date {
 	public int getMonth(){
 		return this.month;
 	}
+	private int getMonths(){
+		int months=this.month;
+		return months;
+	}
 	public int getDay(){
 		return this.day;
 	}
+	int getDays(){
+	int day=0;
+	switch(this.month){
+			case 1:
+			case 3:
+			case 5:
+			case 7:
+			case 8:
+			case 10:
+			case 12:
+				for(int i=this.day;i<=31;i++){
+				day=this.day;
+				}
+			break;
+			case 4:
+			case 6:
+			case 9:
+			case 11:
+				for(int i=this.day;i<=30;i++){	
+				day=this.day;
+				}
+			break;
+			case 2:
+				for(int i=this.day;i<=28;i++){
+				day=this.day;
+				}
+			break;
+		
+	
+	}
+		return day;
+	}
+	int numDate(){
+	int numDias=0;
+		switch(this.month){
+			case 1:
+			case 3:
+			case 5:
+			case 7:
+			case 8:
+			case 10:
+			case 12:
+			numDias=31;
+			break;
+			case 4:
+			case 6:
+			case 9:
+			case 11:
+			numDias=30;
+			break;
+			case 2:
+			numDias=28;
+			break;
+			}
+	return numDias;	
+	}
 
-	boolean isSameYearIf(Date another){
+	public boolean isSameYearIf(Date another){
 		if ( this.year == another.getYear() ){
 			return true;
 		}
 		return false;
 	}
-	boolean isSameMonthIf(Date another){
+	public boolean isSameYear(Date another){
+		boolean verdadero;
+		verdadero=(this.year==another.getYear());
+		return verdadero;
+	}
+	public boolean isSameMonthIf(Date another){
 		if(this.month == another.getMonth()){
 		return true;
 		}
 		return false;
 	}
-	boolean isSameDayIf(Date another){
+	public boolean isSameMonth(Date another){
+		boolean verdadero;
+		verdadero=(this.month==another.getMonth());
+		return verdadero;
+	}
+	public boolean isSameDayIf(Date another){
 		if(this.day==another.getDay()){
 			return true;
 		}
 		return false;
 	}
-	boolean isSameIf(Date another){
+	public boolean isSameDay(Date another){
+		boolean verdadero;
+		verdadero=(this.day==another.getDay());
+		return verdadero;
+	}
+	public boolean isSameIf(Date another){
 		if((this.year == another.getYear())&&(this.month == another.getMonth())&&(this.day==another.getDay())){
 		return true;
 		}
 		return false;
 	}
-	String getMonthName(){
+	public boolean isSame(Date another){
+		boolean verdadero;
+		verdadero=((this.year==another.getYear())&&(this.day==another.getDay())&&(this.month==another.getMonth()));
+		return verdadero;
+	}
+	public String getMonthName(){
 	
-		switch(getMonth()){
+		switch(getMonths()){
 			case 1:
 				nombre="enero";
 			break;
@@ -143,36 +223,64 @@ public class Date {
 		return nombre;
 				
 	}
-	String getMonthSeason(){
+	public String getMonthSeason(){
 		String estacion=" ";
 		switch(this.month){
 		case 1:
 		case 2:
-		case 3:
 			estacion="invierno";
+		break;
+		case 3:
+			if(this.day>1&&this.day<=20){
+				estacion="invierno";
+			}
+			else if(this.day>20&&this.day<=31){
+				estacion="primavera";
+			}
 		break;
 		case 4:
 		case 5:
-		case 6:
 			estacion="primavera";
+		break;
+		case 6:
+			if(this.day>1&&this.day<=20){
+				estacion="primavera";
+			}
+			else if(this.day>20&&this.day<=30){
+				estacion="verano";
+			}
 		break;
 		case 7:
 		case 8:
-		case 9:
 			estacion="verano";
+		break;
+		case 9:
+			if(this.day>1&&this.day<=20){
+				estacion="verano";
+			}
+			else if(this.day>20&&this.day<=30){
+				estacion="otoño";
+			}
 		break;
 		case 10:
 		case 11:
-		case 12:
 			estacion="otoño";
+		break;
+		case 12:
+			if(this.day>1&&this.day<=20){
+				estacion="otoño";
+			}
+			else if(this.day>20&&this.day<=31){
+				estacion="invierno";
+			}
 		break;
 		}
 	return estacion;
 	}
-	boolean isDayRight(int num){// a que se refiere con que verifica si el dia del mes es correcto
+	public boolean isDayRight(){
 		boolean verificacion=false;
-		if(getDay()<=31){
-			switch(getDay()){
+		if(this.day<=31){
+			switch(this.month){
 				case 1:
 				case 3:
 				case 5:
@@ -184,8 +292,8 @@ public class Date {
 			break;
 			}
 		}
-		if(getDay()<=30){
-			switch(getDay()){
+		if(this.day<=30){
+			switch(this.month){
 			case 4:
 			case 6:
 			case 9:
@@ -194,8 +302,8 @@ public class Date {
 			break;
 			}
 		}
-		if(getDay()<=28){
-			switch(getDay()){
+		if(this.day<=28){
+			switch(this.month){
 			case 2:
 				verificacion=true;
 			break;
@@ -203,15 +311,203 @@ public class Date {
 		}
 	return verificacion;
 	}
-	String monthsLeft(){
-	StringBuilder months=new StringBuilder();
-		for(int i=this.month+1;i<=12;i++){
-		months.append(this.getMonthName());
+	public String monthsLeft(){
+	StringBuffer month=new StringBuffer();	
+		for(int i=getMonths();i<=12;i++){
+		month.append(getMonthName()+"\n");
+		this.month=this.month+1;
 		}
-	return months.toString();
+	return month.toString();
 	}
+	public String randomDates(){
+		StringBuilder date=new StringBuilder();
 		
-	public String toString(){
+		date=date.append((int)(Math.random()*(31)+1)+" ");
+		date=date.append((int)(Math.random()*(12)+1)+" ");
+		date=date.append((int)(Math.random()*(20)+2018));
+		
+	return date.toString();
+	}
+	
+	
+	public int getMonthDayLeft(){
+			
+		if(this.month==1||this.month==3||this.month==5||this.month==7||this.month==8||this.month==10||this.month==12){
+			for(int i=this.day;i<=31;i++){
+			System.out.print(i+" ");
+			}
+		}
+		else if(this.month==4||this.month==6||this.month==9||this.month==11){
+			for(int i=this.day;i<=30;i++){
+			System.out.print(i+" ");
+			}
+		}
+		else if(this.month==2){
+			for(int i=this.day;i<=28;i++){
+			System.out.print(i+" ");
+			}
+		}
+	return 0;
+	}
+	public int getMonthsSameDate(){
+		for(int i=1;i<=12;i++){
+			if(this.month==1||this.month==3||this.month==5||this.month==7||this.month==8||this.month==10||this.month==12){
+				switch(i){
+					case 1:
+					System.out.println("enero");
+					break;
+					case 3:
+					System.out.println("marzo");
+					break;
+					case 5:
+					System.out.println("mayo");
+					break;
+					case 7:
+					System.out.println("julio");
+					break;
+					case 8:
+					System.out.println("agosto");
+					break;
+					case 10:
+					System.out.println("octubre");
+					break;
+					case 12:
+					System.out.println("diciembre");
+					break;
+				}
+			}
+		else if(this.month==4||this.month==6||this.month==9||this.month==11){
+			switch(i){
+			case 4:
+			System.out.println("abril");
+			break;
+			case 6:
+			System.out.println("junio");
+			break;
+			case 9:
+			System.out.println("septiembre");
+			break;
+			case 11:
+			System.out.println("noviembre");
+			}
+		}
+		else if(this.month==2){
+			switch(i){
+			case 2:
+			System.out.println("febrero");
+			break;
+			}
+		}
+		}
+	return 0;	
+	}
+	public int dayPast(){
+		int suma=0;
+		int mes_31=31;	
+		int mes_30=30;
+		int mes_28=28;
+		int numDias=0;
+			switch(getMonth()){
+				case 1:
+				suma=this.day;
+				break;
+				case 2:
+				suma=this.day+mes_31;
+				break;
+				case 3:
+				suma=this.day+mes_31+mes_28;
+				break;
+				case 4:
+				suma=this.day+mes_31*2+mes_28;
+				break;
+				case 5:
+				suma=this.day+mes_31*2+mes_28+mes_30;
+				break;
+				case 6:
+				suma=this.day+mes_31*3+mes_28+mes_30;
+				break;
+				case 7:
+				suma=this.day+mes_31*3+mes_28+mes_30*2;
+				case 8:	
+				suma=this.day+mes_31*4+mes_28+mes_30*2;
+				case 9:
+				suma=this.day+mes_31*4+mes_28+mes_30*3;
+				break;
+				case 10:
+				suma=this.day+mes_31*5+mes_28+mes_30*3;
+				break;
+				case 11:
+				suma=this.day+mes_31*5+mes_28+mes_30*4;
+				case 12:
+				suma=this.day+mes_31*6+mes_28+mes_30*4;
+				break;
+			}
+	return suma;
+			
+		
+}
+		public int numRandomTimesEqualDate1(){
+		int numIntentos=0;
+		boolean acierto=false;
+		int numAcertar1=this.day;
+		int numAcertar2=this.month;
+			while(!acierto){
+				int diaR=(int)(Math.random()*31+1);
+				int mesR=(int)(Math.random()*12+1);
+				if(diaR==numAcertar1&&mesR==numAcertar2){
+				acierto=true;
+				}
+				else if(diaR!=numAcertar1||mesR!=numAcertar2){
+			numIntentos++;	
+				}
+			}
+		System.out.println("numero de intentos:");
+		return numIntentos;
+		}
+	
+		public int numRandomTimesEqualDate2(){
+		int numIntentos=0;
+		boolean acierto=false;
+			do{
+				int diaR=(int)(Math.random()*31+1);
+				int mesR=(int)(Math.random()*12+1);
+				
+				if(diaR==this.day&&mesR==this.month){
+					acierto=true;
+				}
+				else if(diaR!=this.day||mesR!=this.month){
+				numIntentos++;
+				}	
+			}while(!acierto);
+		return numIntentos;
+	}
+	public String dayOfWeek(){
+		String day=" ";
+		int dia=dayPast();
+		if(dia%7==1){
+		day="monday";
+		}
+		else if(dia%7==2){
+		day="tuesday";
+		}
+		else if(dia%7==3){
+		day="wednesday";
+		}
+		else if(dia%7==4){
+		day="thursday";
+		}
+		else if(dia%7==5){
+		day="friday";
+		}
+		else if(dia%7==6){
+		day="saturday";
+		}
+		else if(dia%7==0){
+		day="sunday";
+		}
+	return day.toString();
+	}
+		public String toString(){
 		return this.day + "/" + this.month + "/" + this.year;
 	}
 
